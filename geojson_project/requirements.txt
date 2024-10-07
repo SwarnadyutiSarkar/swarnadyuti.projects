@@ -1,2 +1,7 @@
+<<<<<<< HEAD
 Flask
 Flask-Cors
+=======
+Flask
+Flask-Cors
+>>>>>>> 368b30103147c66b779204a5df0b0cd8ad418c13

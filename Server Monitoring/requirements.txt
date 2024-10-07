@@ -1,2 +1,7 @@
+<<<<<<< HEAD
 Flask
 psutil
+=======
+Flask
+psutil
+>>>>>>> 368b30103147c66b779204a5df0b0cd8ad418c13
