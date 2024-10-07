@@ -1,0 +1,42 @@
+# object_locator.py
+
+class Store:
+    def __init__(self):
+        # Sample store layout
+        self.inventory = {
+            'apple': 'Aisle 1',
+            'banana': 'Aisle 1',
+            'cereal': 'Aisle 2',
+            'milk': 'Aisle 3',
+            'bread': 'Aisle 2',
+            'eggs': 'Aisle 3',
+            'chocolate': 'Aisle 4',
+            'soda': 'Aisle 4',
+            'chips': 'Aisle 5',
+        }
+
+    def find_item(self, item_name):
+        """Finds the location of an item in the store."""
+        location = self.inventory.get(item_name.lower())
+        if location:
+            return f"The {item_name} is located in {location}."
+        else:
+            return f"Sorry, {item_name} is not available in the store."
+
+def main():
+    store = Store()
+    print("Welcome to the Object Locator in Store!")
+    print("You can search for the following items:")
+    
+    for item in store.inventory.keys():
+        print(f"- {item}")
+
+    while True:
+        item_name = input("\nEnter the item name (or type 'exit' to quit): ")
+        if item_name.lower() == 'exit':
+            print("Exiting the Object Locator. Have a great day!")
+            break
+        print(store.find_item(item_name))
+
+if __name__ == "__main__":
+    main()
