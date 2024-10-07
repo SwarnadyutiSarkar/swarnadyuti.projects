@@ -1,0 +1,52 @@
+<!-- templates/index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSH Web Terminal</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm.css">
+    <style>
+        body { font-family: monospace; }
+        #terminal { width: 100%; height: 600px; }
+    </style>
+</head>
+<body>
+    <h1>SSH Web Terminal</h1>
+    <div>
+        <input type="text" id="ip" placeholder="IP Address" required>
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button id="connect">Connect</button>
+    </div>
+    <div id="terminal"></div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/xterm/lib/xterm.js"></script>
+    <script>
+        const term = new Terminal();
+        term.open(document.getElementById('terminal'));
+
+        document.getElementById('connect').onclick = async () => {
+            const ip = document.getElementById('ip').value;
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            const response = await fetch('/connect', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ ip, username, password })
+            });
+
+            const data = await response.json();
+            if (data.status === 'connected') {
+                term.write('Connected to ' + ip + '\r\n');
+            } else {
+                term.write('Connection failed\r\n');
+            }
+        };
+    </script>
+</body>
+</html>
