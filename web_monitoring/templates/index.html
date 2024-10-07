@@ -1,0 +1,73 @@
+<!-- templates/index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Monitoring</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        #results { margin-top: 20px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 8px; border: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+    <h1>Web Monitoring Tool</h1>
+    <input type="text" id="url" placeholder="Enter URL to monitor" required>
+    <button id="start-monitoring">Start Monitoring</button>
+
+    <h2>Recent Results</h2>
+    <div id="results">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>URL</th>
+                    <th>Status</th>
+                    <th>Response Time (s)</th>
+                    <th>Timestamp</th>
+                </tr>
+            </thead>
+            <tbody id="results-body"></tbody>
+        </table>
+    </div>
+
+    <script>
+        document.getElementById('start-monitoring').onclick = async () => {
+            const url = document.getElementById('url').value;
+            await fetch('/start_monitoring', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ url })
+            });
+            alert('Monitoring started for ' + url);
+            document.getElementById('url').value = '';
+            fetchResults();
+        };
+
+        const fetchResults = async () => {
+            const response = await fetch('/results');
+            const data = await response.json();
+            const resultsBody = document.getElementById('results-body');
+            resultsBody.innerHTML = '';
+            data.forEach(row => {
+                resultsBody.innerHTML += `
+                    <tr>
+                        <td>${row[0]}</td>
+                        <td>${row[1]}</td>
+                        <td>${row[2]}</td>
+                        <td>${row[3] ? row[3].toFixed(2) : 'N/A'}</td>
+                        <td>${row[4]}</td>
+                    </tr>
+                `;
+            });
+        };
+
+        setInterval(fetchResults, 5000);  // Update results every 5 seconds
+    </script>
+</body>
+</html>
