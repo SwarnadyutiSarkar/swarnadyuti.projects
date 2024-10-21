@@ -1,0 +1,44 @@
+import socket
+import ssl
+from datetime import datetime
+
+def check_ssl_certificate(domain):
+    try:
+        # Create a socket and wrap it in SSL
+        context = ssl.create_default_context()
+        with socket.create_connection((domain, 443)) as sock:
+            with context.wrap_socket(sock, server_hostname=domain) as ssock:
+                # Get the certificate
+                cert = ssock.getpeercert()
+                return cert
+    except Exception as e:
+        print(f"Error checking SSL for {domain}: {e}")
+        return None
+
+def display_certificate_info(cert):
+    if cert:
+        print(f"Subject: {cert['subject']}")
+        print(f"Issuer: {cert['issuer']}")
+        print(f"Valid From: {cert['notBefore']}")
+        print(f"Valid To: {cert['notAfter']}")
+        print(f"Serial Number: {cert['serialNumber']}")
+        
+        # Check if the certificate is valid
+        valid_from = datetime.strptime(cert['notBefore'], '%b %d %H:%M:%S %Y %Z')
+        valid_to = datetime.strptime(cert['notAfter'], '%b %d %H:%M:%S %Y %Z')
+        now = datetime.utcnow()
+
+        if valid_from <= now <= valid_to:
+            print("The SSL certificate is valid.")
+        else:
+            print("The SSL certificate is NOT valid.")
+    else:
+        print("No certificate information available.")
+
+def main():
+    domain = input("Enter the domain name (e.g., example.com): ")
+    cert_info = check_ssl_certificate(domain)
+    display_certificate_info(cert_info)
+
+if __name__ == "__main__":
+    main()
