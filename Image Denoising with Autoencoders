@@ -1,0 +1,88 @@
+//1. Install Required Libraries//
+pip install tensorflow matplotlib numpy
+
+//2. Load the MNIST Dataset//
+The MNIST dataset consists of 28x28 grayscale images of handwritten digits (0-9). You can use Keras to load this dataset.
+import tensorflow as tf
+from tensorflow.keras.datasets import mnist
+import numpy as np
+
+# Load MNIST dataset
+(x_train, _), (x_test, _) = mnist.load_data()
+
+# Normalize the images to [0, 1] range
+x_train = x_train.astype('float32') / 255.0
+x_test = x_test.astype('float32') / 255.0
+
+# Reshape the images to have the same shape as expected by the autoencoder
+x_train = np.reshape(x_train, (x_train.shape[0], 28, 28, 1))
+x_test = np.reshape(x_test, (x_test.shape[0], 28, 28, 1))
+
+// Add Noise to the Images//
+def add_noise(imgs, noise_factor=0.5):
+    noisy_imgs = imgs + noise_factor * np.random.randn(*imgs.shape)
+    noisy_imgs = np.clip(noisy_imgs, 0., 1.)  # Ensure the pixel values are between 0 and 1
+    return noisy_imgs
+
+# Add noise to training and test images
+x_train_noisy = add_noise(x_train)
+x_test_noisy = add_noise(x_test)
+
+// Build the Autoencoder Model//
+from tensorflow.keras import layers, models
+
+# Encoder
+input_img = layers.Input(shape=(28, 28, 1))
+x = layers.Conv2D(32, (3, 3), activation='relu', padding='same')(input_img)
+x = layers.MaxPooling2D((2, 2), padding='same')(x)
+x = layers.Conv2D(64, (3, 3), activation='relu', padding='same')(x)
+encoded = layers.MaxPooling2D((2, 2), padding='same')(x)
+
+# Decoder
+x = layers.Conv2DTranspose(64, (3, 3), activation='relu', padding='same')(encoded)
+x = layers.UpSampling2D((2, 2))(x)
+x = layers.Conv2DTranspose(32, (3, 3), activation='relu', padding='same')(x)
+x = layers.UpSampling2D((2, 2))(x)
+decoded = layers.Conv2D(1, (3, 3), activation='sigmoid', padding='same')(x)
+
+# Autoencoder Model
+autoencoder = models.Model(input_img, decoded)
+
+# Compile the model
+autoencoder.compile(optimizer='adam', loss='binary_crossentropy')
+
+//Train the Autoencoder//
+autoencoder.fit(x_train_noisy, x_train, epochs=10, batch_size=128, shuffle=True, validation_data=(x_test_noisy, x_test))
+
+//6. Visualize the Results//
+import matplotlib.pyplot as plt
+
+# Get the denoised images
+denoised_imgs = autoencoder.predict(x_test_noisy)
+
+# Plot the first few noisy and denoised images
+n = 10  # Number of images to display
+plt.figure(figsize=(20, 4))
+for i in range(n):
+    # Display noisy images
+    ax = plt.subplot(2, n, i + 1)
+    plt.imshow(x_test_noisy[i].reshape(28, 28), cmap="gray")
+    ax.get_xaxis().set_visible(False)
+    ax.get_yaxis().set_visible(False)
+
+    # Display denoised images
+    ax = plt.subplot(2, n, i + 1 + n)
+    plt.imshow(denoised_imgs[i].reshape(28, 28), cmap="gray")
+    ax.get_xaxis().set_visible(False)
+    ax.get_yaxis().set_visible(False)
+
+plt.show()
+
+//7. Evaluate the Model (Optional)//
+import tensorflow as tf
+
+def psnr(y_true, y_pred):
+    return tf.image.psnr(y_true, y_pred, max_val=1.0)
+
+psnr_value = psnr(x_test, denoised_imgs)
+print("PSNR value:", psnr_value.numpy())
