@@ -1,0 +1,285 @@
+INDEX.HTML
+--------------------------
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sustainable Development Goals (SDGs) Information Website">
+    <title>SDG Information</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <h1>SDG Goals</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#goals">The 17 SDGs</a></li>
+                <li><a href="#action">Get Involved</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="hero">
+        <div class="hero-content">
+            <h2>Empowering a Better Future</h2>
+            <p>Learn about the United Nations' 17 Sustainable Development Goals and how you can make a difference.</p>
+            <a href="#goals" class="btn">Explore the Goals</a>
+        </div>
+    </section>
+
+    <section id="overview" class="content-section">
+        <h2>What are the SDGs?</h2>
+        <p>The Sustainable Development Goals (SDGs) are a set of 17 global goals set by the United Nations Assembly in 2015.
+            They cover a broad range of social, environmental, and economic issues.</p>
+    </section>
+
+    <section id="goals" class="content-section">
+        <h2>The 17 SDGs</h2>
+        <div class="goal-container">
+            <!-- Example goal -->
+            <div class="goal">
+                <img src="https://via.placeholder.com/200" alt="Goal 1">
+                <h3>Goal 1: No Poverty</h3>
+                <p>End poverty in all its forms everywhere.</p>
+            </div>
+            <div class="goal">
+                <img src="https://via.placeholder.com/200" alt="Goal 2">
+                <h3>Goal 2: Zero Hunger</h3>
+                <p>End hunger, achieve food security, improve nutrition, and promote sustainable agriculture.</p>
+            </div>
+            <!-- Add other goals similarly -->
+        </div>
+    </section>
+
+    <section id="action" class="content-section">
+        <h2>Get Involved</h2>
+        <p>Want to take action? Here are some ways you can help achieve the SDGs:</p>
+        <ul>
+            <li>Volunteer for SDG-related organizations</li>
+            <li>Reduce, Reuse, Recycle</li>
+            <li>Support SDG-conscious businesses</li>
+        </ul>
+    </section>
+
+    <section id="contact" class="content-section">
+        <h2>Contact Us</h2>
+        <form action="#" method="POST">
+            <input type="text" placeholder="Your Name" required>
+            <input type="email" placeholder="Your Email" required>
+            <textarea placeholder="Your Message" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 SDG Website | Designed for a Better Future</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
+--------------------------
+STYLES.CSS
+------------------------
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+}
+
+/* Header */
+header {
+    background-color: #1E90FF;
+    color: white;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header .logo h1 {
+    font-size: 2.5rem;
+}
+
+header nav ul {
+    list-style: none;
+    display: flex;
+}
+
+header nav ul li {
+    margin: 0 15px;
+}
+
+header nav ul li a {
+    font-size: 1.2rem;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+header nav ul li a:hover {
+    background-color: #ff7f50;
+}
+
+/* Hero Section */
+#hero {
+    background-image: url('https://via.placeholder.com/1600x800');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+#hero .hero-content h2 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+#hero .hero-content p {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+}
+
+#hero .btn {
+    background-color: #ff7f50;
+    color: white;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    border-radius: 5px;
+}
+
+#hero .btn:hover {
+    background-color: #ff6347;
+}
+
+/* Content Section */
+.content-section {
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.content-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.content-section p {
+    font-size: 1.2rem;
+    max-width: 800px;
+    margin: 0 auto 30px;
+}
+
+.goal-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.goal {
+    background-color: #fff;
+    padding: 20px;
+    width: 250px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.goal img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.goal h3 {
+    font-size: 1.5rem;
+    margin: 10px 0;
+}
+
+.goal p {
+    font-size: 1rem;
+}
+
+/* Contact Form */
+form input, form textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+form button {
+    background-color: #1E90FF;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #4682b4;
+}
+
+/* Footer */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    font-size: 1rem;
+}
+-------------------------------------------
+SCRIPT.JS
+-------------------------------
+// Smooth Scroll
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+        });
+    });
+});
+
+// Simple Form Validation
+const form = document.querySelector('form');
+form.addEventListener('submit', function (e) {
+    const name = form.querySelector('input[type="text"]');
+    const email = form.querySelector('input[type="email"]');
+    const message = form.querySelector('textarea');
+
+    if (!name.value || !email.value || !message.value) {
+        e.preventDefault();
+        alert('Please fill out all fields.');
+    }
+});
